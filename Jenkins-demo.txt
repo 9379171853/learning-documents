@@ -1,0 +1,88 @@
+1) Creating Jobs
+
+How to Create a basic job in Jenkins
+Basic Job configurations
+how to run the job remotely
+how to chain job execution
+
+step1- new item 
+step2 - run the job remotely
+step3 - chain job execution
+
+a) create a freestyle job (job1)
+
+scenario1
+----------
+job1 - build triggers - build periodically - * * * * * (every minute)/H/15 * * * *
+
+scenario2
+----------
+job1 - build triggers - trigger builds remotely - specify authentication token - 1234
+
+use --> http://localhost:8082/job/job1/build?token=1234 
+
+Dashboard - you can see the job in build queue
+
+b) create a freestyle job2 
+
+scenario1
+---------
+job2 - build triggers - build after other projects are built -- specify job1.
+
+c) create a freestyle job3
+
+scenario1
+----------
+
+job3 - build triggers - build after other projects are built -- specify.
+     - post-build-actions - projects to build - specify - job2
+
+2) Jenkins integration with git (scm)
+
+create a java program and run thru command line
+create a jenkins job to run the java program
+add this program/project to git
+jenkins - add git plugin if not available
+configure jenkins job to trigger the execution when a change is pushed to github
+
+3) Using command line interface
+===================================
+why cli - easier/faster/efficienct memory management/ci
+
+step 1 -> goto manage plugins --> configure global security --> enable security
+
+step2 -> goto http://localhost:8082/cli/
+
+step3 -> download jenkins-cli.jar at any location.
+
+step4 -> run jenkins-cli.jar
+
+step5 -> run jenkins commands from the list
+
+4) parameterize jobs	
+=======================
+step1 - freestyle job --> this project is parameterized --> add parameters
+
+step2 - build --> execute windows batch command -- echo %parameter%
+
+http://server/job/myjob/buildWithParameters?PARAMETER=Value
+
+java -jar c:\jenkins\jenkins-cli.jar -s http://localhost:8080 build parameterizejob -p name=ram
+
+5) running job from command line
+================================
+c:\Jenkins>java -jar jenkins-cli.jar -s http://localhost:8082 build job1 -s
+
+Started job1 #10
+Completed job1 #10 : SUCCESS	
+
+running a job with credentials (goto conf global security -- authorization -- logged in users can do anything
+------------------------------------------------------------------------------------------------------------
+c:\Jenkins>java -jar jenkins-cli.jar -s http://localhost:8082 build job1 -s
+
+ERROR: anonymous is missing the Job/Build permission
+
+c:\Jenkins>java -jar jenkins-cli.jar -s http://localhost:8082 build job1 -s --username=prabu --password=prabu
+Started job1 #11
+Completed job1 #11 : SUCCESS
+
